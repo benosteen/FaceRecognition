@@ -1,0 +1,34 @@
+Face recognition via webcam images demo
+--------------------------------------------
+
+Just a simple script bringing together a number of techniques, files, tips etc from all over.
+
+References:
+
+Haar trained XML tree maps from here:
+http://tutorial-haartraining.googlecode.com/svn/trunk/data/haarcascades/
+
+OpenCV python cheatsheet:
+http://opencv.willowgarage.com/wiki/PythonInterface
+
+Rough detect-faces code from here:
+http://creatingwithcode.com/howto/face-detection-in-static-images-with-python/
+
+And PyGame is just a handy dandy toolset that I've used a number of times in the past. (I tend to use Processing when interacting with things in C)
+
+Dependancies
+------------
+
+sudo apt-get install python-opencv python-pygame python-imaging
+
+(SWIG-based bindings for OpenCV, PyGame and PIL - the python Imaging library)
+
+Running
+-------
+
+Running the code unaltered will run the face detection algorithm on the demo.jpg file
+and use the pygame loop to display it in a window.
+
+python pygame_face.py
+
+To see the webcam demo, make sure your webcam is detected under linux and then alter the section of the pygame_face.py file where it says # UNCOMMENT [...] and run it again.
