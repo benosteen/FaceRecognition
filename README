@@ -8,6 +8,12 @@ References:
 Haar trained XML tree maps from here:
 http://tutorial-haartraining.googlecode.com/svn/trunk/data/haarcascades/
 
+Eye Cascade:
+http://www-personal.umich.edu/~shameem/haarcascade_eye.html
+
+Hand Cascade:
+http://code.google.com/p/ehci/wiki/HandTracking
+
 OpenCV python cheatsheet:
 http://opencv.willowgarage.com/wiki/PythonInterface
 
