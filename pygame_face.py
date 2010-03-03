@@ -8,12 +8,21 @@ import opencv
 from opencv import highgui
 
 camera = highgui.cvCreateCameraCapture(-1)
+cascade = opencv.cvLoadHaarClassifierCascade('haarcascade_frontalface_alt.xml', opencv.cvSize(1,1))
+eye_cascade = opencv.cvLoadHaarClassifierCascade('haarcascade_eye.xml', opencv.cvSize(1,1))
 
 def get_image():
     im = highgui.cvQueryFrame(camera)
     detect(im)
     #convert Ipl image to PIL image
     return opencv.adaptors.Ipl2PIL(im)
+
+def draw_bounding_boxes(cascade_list, img, r,g,b, width):
+    if cascade_list:
+        for rect in cascade_list:
+            opencv.cvRectangle(img, opencv.cvPoint( int(rect.x), int(rect.y)),
+                         opencv.cvPoint(int(rect.x + rect.width), int(rect.y + rect.height)),
+                         opencv.CV_RGB(r,g,b), width)
 
 def detect(image):
     image_size = opencv.cvGetSize(image)
@@ -30,16 +39,11 @@ def detect(image):
     opencv.cvEqualizeHist(grayscale, grayscale)
  
     # detect objects
-    cascade = opencv.cvLoadHaarClassifierCascade('haarcascade_frontalface_alt.xml', opencv.cvSize(1,1))
     faces = opencv.cvHaarDetectObjects(grayscale, cascade, storage, 1.2, 2, opencv.CV_HAAR_DO_CANNY_PRUNING, opencv.cvSize(50, 50))
-
-    if faces:
-        for face in faces:
-            # Hmm should I do a min-size check?
-            # Draw a Chartreuse rectangle Chartruese rocks ;)
-            opencv.cvRectangle(image, opencv.cvPoint( int(face.x), int(face.y)),
-                         opencv.cvPoint(int(face.x + face.width), int(face.y + face.height)),
-                         opencv.CV_RGB(127, 255, 0), 2) # RGB #7FFF00 width=2
+    eyes = opencv.cvHaarDetectObjects(grayscale, eye_cascade, storage, 1.2, 2, opencv.CV_HAAR_DO_CANNY_PRUNING, opencv.cvSize(20, 20))
+    draw_bounding_boxes(faces, image, 127,255,0, 3)
+    draw_bounding_boxes(eyes, image, 255,127,0, 1)
+    
 
 fps = 30.0
 pygame.init()
