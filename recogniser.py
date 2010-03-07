@@ -35,12 +35,14 @@ class Recogniser(object):
     return self._cached_cascades[cascade_name]
 
 
-  def detect_in_image_file(self, filename, cascade_name, recogn_w = 50, recogn_h = 50):
+  def detect_in_image_file(self, filename, cascade_name, recogn_w = 50, recogn_h = 50, autosearchsize=False):
     if os.path.isfile(filename):
       try:
         pil_image = PIL.Image.open(filename)
       except:
         raise CouldntReadAsImagefile
+      if autosearchsize:
+        recogn_w, recogn_h = int(pil_image.size[0]/10.0), int(pil_image.size[1]/10.0)
       return self.detect(pil_image, cascade_name, recogn_w, recogn_h)
     else:
       raise ImageFileNotFound

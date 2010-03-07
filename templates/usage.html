@@ -8,17 +8,17 @@
 <h1>Face recognition dropbox</h1>
 
 <h3>Scan photo:</h3>
-<p>
 <form method="POST" enctype="multipart/form-data" action="/">
-JSON? <input type="checkbox" name="json" value="true"/>
-image? <input type="checkbox" name="image"/>
+<p>
+Give back JSON rather than PNG image? <input type="checkbox" name="json" value="true"/>
 <select name="cascade">
 % for cascade in r.cascades:
 <option>${cascade}</option>
 % endfor
 </input>
+</p>
+<p>
 <input type="file" name="part"/>
 <input type="submit" value="Scan photo"/>
-</form>
 </p>
-
+</form>

@@ -13,7 +13,7 @@ from recogniser import Recogniser
 
 import PIL
 
-import ImageDraw
+import Image, ImageDraw
 from web.contrib.template import render_mako
 
 from urllib import urlencode, unquote, quote
@@ -41,12 +41,12 @@ render = render_mako(
 
 class usage:
     def GET(self):
-        r = Recogniser(".")
+        r = Recogniser()
         web.header('Content-type','text/html; charset=utf-8', unique=True)
         return render.usage(r = r)
         
     def POST(self):
-        r = Recogniser(".")
+        r = Recogniser()
         x = web.input(part={})
         if x.has_key("cascade"):
             if x['cascade'] not in r.cascades:
@@ -62,7 +62,7 @@ class usage:
             x['part'].file.close()
             tmpfile.close()
             if True:
-                objs = r.detect_in_image_file(tmp_fname, str(x['cascade']))
+                objs = r.detect_in_image_file(tmp_fname, str(x['cascade']), autosearchsize=True)
                 if x.has_key("json"):
                     web.header('Content-type','application/json', unique=True)
                     os.remove(tmp_fname)
@@ -72,11 +72,11 @@ class usage:
                        data.append({'x':obj.x, 'y':obj.x, 'w':obj.width, 'h':obj.height})
                     return simplejson.dumps(data)
                 else:
-                    img = PIL.Image.open(tmp_fname)
+                    img = Image.open(tmp_fname)
                     drawing = ImageDraw.Draw(img)
                     for obj in objs:
                         print "%(x)s %(y)s %(w)s %(h)s" % ({'x':obj.x, 'y':obj.x, 'w':obj.width, 'h':obj.height})
-                        drawing.rectangle([obj.x, obj.y, obj.x+obj.width, obj.y+obj.height], outline=255, fill=128)
+                        drawing.rectangle([obj.x, obj.y, obj.x+obj.width, obj.y+obj.height], outline=128)
                     del drawing
                     fd_png, png_fname = tempfile.mkstemp(suffix=".png")
                     tmpfile = os.fdopen(fd_png, "w+b")
