@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+<%inherit file="/base.html" />
+
+<%def name="head_tags()">
+  <!-- add some head tags here -->
+</%def>
+
+<h1>Face recognition dropbox</h1>
+
+<h3>Scan photo:</h3>
+<p>
+<form method="POST" enctype="multipart/form-data" action="/">
+JSON? <input type="checkbox" name="json" value="true"/>
+image? <input type="checkbox" name="image"/>
+<select name="cascade">
+% for cascade in r.cascades:
+<option>${cascade}</option>
+% endfor
+</input>
+<input type="file" name="part"/>
+<input type="submit" value="Scan photo"/>
+</form>
+</p>
+
